@@ -1,5 +1,3 @@
-// imported this file into mongodb to create the products collection
-
 [
   {
     "name": "Oregano oil",
