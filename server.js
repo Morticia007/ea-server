@@ -5,12 +5,23 @@ const users = require('./routes/users');
 const products = require('./routes/products');
 const morgan = require('morgan');
 const helmet = require('helmet');
-
+const passport = require('passport');
 const mongoose = require('mongoose');
+
 mongoose.connect('mongodb://localhost:27017/ea-db', {
+  useCreateIndex: true,
+  useFindAndModify: false,
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+
+const LocalStrategy = require('passport-local').Strategy;
+
+const User = require('./models/user');
+
+exports.local = passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
